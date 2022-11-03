@@ -9,6 +9,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix, accuracy_score
 
 ## Step 2 :  Data Preprocessing
 ### Importing the dataset
@@ -78,3 +79,14 @@ ann.fit(
     batch_size=32,
     epochs=100
 )
+
+## Step 4 : Making the prediction and evaluating the model
+### Predicting the test set result
+y_pred = ann.predict(X_test)
+y_pred = (y_pred > 0.5)
+#print(np.concatenate((y_pred.reshape(len(y_pred), 1), y_test.reshape(len(y_test), 1)), 1))
+
+### Making the confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+accuracy_score(y_test, y_pred)
