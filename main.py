@@ -18,13 +18,13 @@ y = dataset.iloc[:, -1].values
 
 ### Encoding categorical data
 #### Encoding the "Gender" column
-le = LabelEncoder
-X[:, 2] = le.fit_transform(X[, :2])
+le = LabelEncoder()
+X[:, 2] = le.fit_transform(X[:, 2])
 
 #### One Hot Encoding the "Geography" column
 ct = ColumnTransformer(
     transformers=[('encoder', OneHotEncoder(), [1])],
-    remainder='passthough'
+    remainder='passthrough'
 )
 X = np.array(ct.fit_transform(X))
 
@@ -62,3 +62,19 @@ ann.add(tf.keras.layers.Dense(
     units=1,
     activation='sigmoid',
 ))
+
+## Step 3 : Training the ANN
+### Compiling the ANN
+ann.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+
+### Training the ANN
+ann.fit(
+    X_train,
+    y_train,
+    batch_size=32,
+    epochs=100
+)
